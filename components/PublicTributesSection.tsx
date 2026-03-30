@@ -34,6 +34,35 @@ const INITIAL_VISIBLE = 3;
 export default function PublicTributesSection() {
   const [fileName, setFileName] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const [tributeSubmitting, setTributeSubmitting] = useState(false);
+  const [tributeSubmitOk, setTributeSubmitOk] = useState(false);
+  const [tributeSubmitErr, setTributeSubmitErr] = useState(false);
+
+  async function handleTributeSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setTributeSubmitErr(false);
+    setTributeSubmitOk(false);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    setTributeSubmitting(true);
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        body: formData,
+      });
+      if (res.ok) {
+        setTributeSubmitOk(true);
+        form.reset();
+        setFileName("");
+      } else {
+        setTributeSubmitErr(true);
+      }
+    } catch {
+      setTributeSubmitErr(true);
+    } finally {
+      setTributeSubmitting(false);
+    }
+  }
 
   // Tributes fetched from /api/tributes (Airtable → local fallback)
   const [tributes, setTributes] = useState<ApprovedTribute[]>([]);
@@ -130,6 +159,8 @@ export default function PublicTributesSection() {
               name="tribute"
               method="POST"
               data-netlify="true"
+              encType="multipart/form-data"
+              onSubmit={handleTributeSubmit}
             >
               <input type="hidden" name="form-name" value="tribute" />
 
@@ -230,6 +261,7 @@ export default function PublicTributesSection() {
 
                 <button
                   type="submit"
+                  disabled={tributeSubmitting}
                   style={{
                     width: "100%",
                     padding: "0.825rem",
@@ -241,12 +273,43 @@ export default function PublicTributesSection() {
                     fontWeight: 500,
                     letterSpacing: "0.07em",
                     border: "none",
-                    cursor: "pointer",
+                    cursor: tributeSubmitting ? "wait" : "pointer",
                     transition: "opacity 0.2s",
+                    opacity: tributeSubmitting ? 0.75 : 1,
                   }}
                 >
-                  Submit Tribute
+                  {tributeSubmitting ? "Sending…" : "Submit Tribute"}
                 </button>
+
+                {tributeSubmitOk && (
+                  <p
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "0.82rem",
+                      color: "#B8AA90",
+                      lineHeight: 1.65,
+                      marginTop: "1rem",
+                      marginBottom: 0,
+                    }}
+                  >
+                    Thank you. Your tribute has been received and will be reviewed
+                    before it may appear on this page.
+                  </p>
+                )}
+                {tributeSubmitErr && (
+                  <p
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "0.82rem",
+                      color: "#C4A46B",
+                      lineHeight: 1.65,
+                      marginTop: "1rem",
+                      marginBottom: 0,
+                    }}
+                  >
+                    Something went wrong. Please try again in a moment.
+                  </p>
+                )}
             </form>
           </div>
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netlify Forms — tribute blueprint</title>
+</head>
+<body>
+  <!--
+    Static HTML blueprint for Netlify Forms detection (Next.js Runtime v5).
+    Field names must match the live tribute form in PublicTributesSection.tsx.
+  -->
+  <form
+    name="tribute"
+    method="POST"
+    data-netlify="true"
+    enctype="multipart/form-data"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <input type="hidden" name="form-name" value="tribute" />
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <input type="text" name="relationship" />
+    <textarea name="message"></textarea>
+    <input type="file" name="photo" />
+  </form>
+</body>
+</html>
