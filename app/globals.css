@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-charcoal: #1E1612;
+  --color-cocoa: #3D2B1F;
+  --color-sepia: #6B4E37;
+  --color-bronze: #C4A46B;
+  --color-stone: #9B8B7B;
+  --color-cream: #F5F0E8;
+  --color-parchment: #EDE5D5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #120C08;
+  color: #F5F0E8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus — accessible, editorial */
+:focus-visible {
+  outline: 2px solid #C4A46B;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Input focus */
+input:focus,
+textarea:focus {
+  border-color: rgba(196, 164, 107, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(196, 164, 107, 0.1) !important;
+}
+
+/* Selection */
+::selection {
+  background: rgba(196, 164, 107, 0.28);
+  color: #1E1612;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #120C08;
+}
+::-webkit-scrollbar-thumb {
+  background: #3D2B1F;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6B4E37;
+}
+
+/* Responsive image scale utility for Next.js Image hover */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
