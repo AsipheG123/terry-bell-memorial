@@ -1,17 +1,11 @@
 /**
- * APPROVED PUBLIC TRIBUTES
+ * Public tribute shape + optional static seed.
  * ─────────────────────────────────────────────────────────────────────────────
- * This is the only file that controls what appears publicly on the site under
- * "Approved Tributes". The workflow is:
+ * Live tributes come from Netlify Forms via GET /api/tributes (verified
+ * submissions). Remove unwanted entries in the Netlify Forms UI.
  *
- *   1. A visitor submits a tribute via the form on the Public Tributes page.
- *   2. Netlify captures the submission and forwards it by email / Zapier.
- *   3. The family or moderator reviews the submission.
- *   4. If approved, the tribute is manually added to this array below.
- *   5. The site is rebuilt and redeployed — the tribute then appears publicly.
- *
- * DO NOT populate this file with demo or placeholder data.
- * Only add real, reviewed, family-approved tributes here.
+ * This array is not used unless NETLIFY_MERGE_STATIC_SEED=true (e.g. legacy
+ * rows during migration). Leave empty once everything lives in Netlify.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -24,10 +18,7 @@ export interface ApprovedTribute {
   initials: string;
 }
 
-/**
- * Add approved tributes to this array.
- * Leave empty until real submissions have been reviewed and approved.
- */
+/** Optional static rows when NETLIFY_MERGE_STATIC_SEED is enabled. */
 export const approvedTributes: ApprovedTribute[] = [
   {
     id: "1",

@@ -1,30 +1,29 @@
 /**
  * GET /api/tributes
  *
- * Returns approved tributes for the public memorial site.
- * Primary source: Airtable (rows where Status = "Approved").
- * Fallback:       data/approvedTributes.ts (used when Airtable env vars are
- *                 not yet set, or when Airtable returns an error / empty set).
+ * Returns public tributes from Netlify Forms (verified submissions only).
+ * Moderation: delete or mark spam in Netlify — removed submissions no longer appear.
  *
- * Required environment variables (set in .env.local and in Netlify site settings):
- *   AIRTABLE_API_KEY    — your Airtable personal access token
- *   AIRTABLE_BASE_ID    — the base ID, e.g. appXXXXXXXXXXXXXX
- *   AIRTABLE_TABLE_NAME — the table name, e.g. "Tributes"
+ * Environment (set in .env.local and Netlify site env):
+ *   NETLIFY_AUTH_TOKEN — Personal access token (User settings → Applications)
+ *   NETLIFY_SITE_ID    — Site / API ID (Site configuration → General)
+ *   NETLIFY_FORM_ID    — Optional; if omitted, resolves the form named "tribute"
  *
- * Expected Airtable field names (case-sensitive):
- *   Name         (text)
- *   Relationship (text, optional)
- *   Message      (long text)
- *   Status       (single select — must be "Approved" to appear publicly)
- *   Initials     (text, optional — derived from Name if blank)
+ * Optional:
+ *   NETLIFY_MERGE_STATIC_SEED — set to "1" or "true" to append entries from
+ *                               data/approvedTributes.ts after Netlify rows (migration only).
  */
 
 import { NextResponse } from "next/server";
-import { approvedTributes } from "@/data/approvedTributes";
+import {
+  approvedTributes,
+  type ApprovedTribute,
+} from "@/data/approvedTributes";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+const API = "https://api.netlify.com/api/v1";
 const NO_STORE_HEADERS = { "Cache-Control": "no-store, max-age=0" } as const;
 
 function jsonNoStore(data: unknown) {
@@ -38,55 +37,137 @@ function deriveInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-export async function GET() {
-  const apiKey = process.env.AIRTABLE_API_KEY;
-  const baseId = process.env.AIRTABLE_BASE_ID;
-  const tableName = process.env.AIRTABLE_TABLE_NAME;
+function netlifyHeaders(token: string): HeadersInit {
+  return {
+    Authorization: `Bearer ${token}`,
+    "User-Agent": "TerryBellMemorial/1.0",
+  };
+}
 
-  // ── Env vars not configured yet — use local fallback ─────────────────────
-  if (!apiKey || !baseId || !tableName) {
-    return jsonNoStore(approvedTributes);
+type NetlifyFormMeta = { id: string; name: string };
+type NetlifySubmission = {
+  id: string;
+  created_at?: string;
+  name?: string | null;
+  body?: string | null;
+  summary?: string | null;
+  data?: Record<string, string | undefined>;
+};
+
+async function resolveFormId(
+  token: string,
+  siteId: string,
+  explicitFormId: string | undefined
+): Promise<string | null> {
+  if (explicitFormId?.trim()) return explicitFormId.trim();
+
+  const res = await fetch(`${API}/sites/${siteId}/forms`, {
+    headers: netlifyHeaders(token),
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    console.error(`Netlify list forms failed: ${res.status}`);
+    return null;
+  }
+  const forms = (await res.json()) as NetlifyFormMeta[];
+  const tribute = forms.find((f) => f.name === "tribute");
+  if (!tribute) {
+    console.error('No Netlify form named "tribute" found for this site.');
+    return null;
+  }
+  return tribute.id;
+}
+
+async function fetchAllSubmissions(
+  token: string,
+  formId: string
+): Promise<NetlifySubmission[]> {
+  const all: NetlifySubmission[] = [];
+  let page = 1;
+  const perPage = 100;
+
+  for (;;) {
+    const url = `${API}/forms/${formId}/submissions?page=${page}&per_page=${perPage}`;
+    const res = await fetch(url, {
+      headers: netlifyHeaders(token),
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      console.error(`Netlify list submissions failed: ${res.status}`);
+      return all;
+    }
+    const batch = (await res.json()) as NetlifySubmission[];
+    all.push(...batch);
+    if (batch.length < perPage) break;
+    page += 1;
+  }
+  return all;
+}
+
+function submissionToTribute(sub: NetlifySubmission): ApprovedTribute {
+  const d = sub.data ?? {};
+  const name =
+    (typeof d.name === "string" && d.name.trim()) ||
+    (typeof sub.name === "string" && sub.name.trim()) ||
+    "Anonymous";
+  const relationship =
+    typeof d.relationship === "string" ? d.relationship.trim() : "";
+  const message =
+    (typeof d.message === "string" && d.message.trim()) ||
+    (typeof sub.body === "string" && sub.body.trim()) ||
+    (typeof sub.summary === "string" && sub.summary.trim()) ||
+    "";
+
+  const out: ApprovedTribute = {
+    id: sub.id,
+    name,
+    message,
+    initials: deriveInitials(name),
+  };
+  if (relationship) out.relationship = relationship;
+  return out;
+}
+
+function mergeStaticSeed(): boolean {
+  const v = process.env.NETLIFY_MERGE_STATIC_SEED?.toLowerCase();
+  return v === "1" || v === "true" || v === "yes";
+}
+
+export async function GET() {
+  const token = process.env.NETLIFY_AUTH_TOKEN;
+  const siteId = process.env.NETLIFY_SITE_ID;
+
+  if (!token || !siteId) {
+    console.warn("NETLIFY_AUTH_TOKEN or NETLIFY_SITE_ID missing — returning [].");
+    return jsonNoStore([]);
   }
 
   try {
-    const filter = encodeURIComponent(`{Status}="Approved"`);
-    const sort = "sort%5B0%5D%5Bfield%5D=Created&sort%5B0%5D%5Bdirection%5D=asc";
-    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?filterByFormula=${filter}&${sort}`;
-
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${apiKey}` },
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      console.error(`Airtable responded with ${res.status}`);
-      return jsonNoStore(approvedTributes);
+    const formId = await resolveFormId(
+      token,
+      siteId,
+      process.env.NETLIFY_FORM_ID
+    );
+    if (!formId) {
+      return jsonNoStore([]);
     }
 
-    const data = await res.json();
-    const records: unknown[] = data.records ?? [];
-
-    const tributes = records.map((rec: unknown) => {
-      const r = rec as { id: string; fields: Record<string, string> };
-      const name: string = r.fields.Name || "Anonymous";
-      return {
-        id: r.id,
-        name,
-        relationship: r.fields.Relationship || "",
-        message: r.fields.Message || "",
-        initials:
-          r.fields.Initials?.trim() ? r.fields.Initials.trim() : deriveInitials(name),
-      };
+    const submissions = await fetchAllSubmissions(token, formId);
+    submissions.sort((a, b) => {
+      const ta = a.created_at ? Date.parse(a.created_at) : 0;
+      const tb = b.created_at ? Date.parse(b.created_at) : 0;
+      return ta - tb;
     });
 
-    // ── Airtable returned nothing — fall back to local approved list ──────
-    if (tributes.length === 0) {
-      return jsonNoStore(approvedTributes);
+    let tributes: ApprovedTribute[] = submissions.map(submissionToTribute);
+
+    if (mergeStaticSeed() && approvedTributes.length > 0) {
+      tributes = [...tributes, ...approvedTributes];
     }
 
     return jsonNoStore(tributes);
   } catch (err) {
-    console.error("Airtable fetch failed:", err);
-    return jsonNoStore(approvedTributes);
+    console.error("Netlify tributes fetch failed:", err);
+    return jsonNoStore([]);
   }
 }

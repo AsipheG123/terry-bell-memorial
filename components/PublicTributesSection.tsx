@@ -40,50 +40,28 @@ export default function PublicTributesSection() {
 
   async function handleTributeSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+  
     setTributeSubmitErr(false);
     setTributeSubmitOk(false);
-    const form = e.currentTarget;
-
-    const nameEl = form.elements.namedItem("name") as HTMLInputElement | null;
-    const emailEl = form.elements.namedItem("email") as HTMLInputElement | null;
-    const relEl = form.elements.namedItem("relationship") as HTMLInputElement | null;
-    const msgEl = form.elements.namedItem("message") as HTMLTextAreaElement | null;
-
-    // Only these fields are sent — never new FormData(form), so no React/Next
-    // $ACTION_* or other hidden fields are included.
-    //
-    // Next.js 16+ treats multipart/form-data POST to "/" as a possible Server
-    // Action; apps with no server actions respond with "Server action not found."
-    // Netlify Forms still accepts application/x-www-form-urlencoded POSTs to "/".
-    // Do not use FormData/multipart for this fetch. Optional image: base64 in `photo`.
-    const body = new URLSearchParams();
-    body.append("form-name", "tribute");
-    body.append("name", nameEl?.value ?? "");
-    body.append("email", emailEl?.value ?? "");
-    body.append("relationship", relEl?.value ?? "");
-    body.append("message", msgEl?.value ?? "");
-
-    const file = fileRef.current?.files?.[0];
-    if (file) {
-      const dataUrl = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result));
-        reader.onerror = () => reject(reader.error);
-        reader.readAsDataURL(file);
-      });
-      body.append("photo", dataUrl);
-    }
-
     setTributeSubmitting(true);
+  
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+  
     try {
-      const res = await fetch("/", {
+      const res = await fetch("/api/tribute-submit", {
         method: "POST",
-        body,
+        body: formData,
       });
+
       if (res.ok) {
         setTributeSubmitOk(true);
         form.reset();
         setFileName("");
+        fetch("/api/tributes", { cache: "no-store" })
+          .then((r) => r.json())
+          .then((data: ApprovedTribute[]) => setTributes(data))
+          .catch(() => {});
       } else {
         setTributeSubmitErr(true);
       }
@@ -94,7 +72,7 @@ export default function PublicTributesSection() {
     }
   }
 
-  // Tributes fetched from /api/tributes (Airtable → local fallback)
+  // Tributes from /api/tributes (Netlify Forms verified submissions)
   const [tributes, setTributes] = useState<ApprovedTribute[]>([]);
   const [tributesLoading, setTributesLoading] = useState(true);
   const [showAllTributes, setShowAllTributes] = useState(false);
@@ -343,7 +321,7 @@ export default function PublicTributesSection() {
             </form>
           </div>
 
-          {/* Approved tributes column — source: /api/tributes (Airtable → local fallback) */}
+          {/* Approved tributes column — source: /api/tributes (Netlify Forms) */}
           <div>
             <div
               style={{
