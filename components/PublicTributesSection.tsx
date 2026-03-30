@@ -41,7 +41,7 @@ export default function PublicTributesSection() {
   const [showAllTributes, setShowAllTributes] = useState(false);
 
   useEffect(() => {
-    fetch("/api/tributes")
+    fetch("/api/tributes", { cache: "no-store" })
       .then((r) => r.json())
       .then((data: ApprovedTribute[]) => setTributes(data))
       .catch(() => setTributes([]))

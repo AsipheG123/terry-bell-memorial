@@ -22,8 +22,14 @@
 import { NextResponse } from "next/server";
 import { approvedTributes } from "@/data/approvedTributes";
 
-// Cache Airtable responses for 60 seconds so the page stays snappy
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const NO_STORE_HEADERS = { "Cache-Control": "no-store, max-age=0" } as const;
+
+function jsonNoStore(data: unknown) {
+  return NextResponse.json(data, { headers: NO_STORE_HEADERS });
+}
 
 function deriveInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -39,7 +45,7 @@ export async function GET() {
 
   // ── Env vars not configured yet — use local fallback ─────────────────────
   if (!apiKey || !baseId || !tableName) {
-    return NextResponse.json(approvedTributes);
+    return jsonNoStore(approvedTributes);
   }
 
   try {
@@ -49,12 +55,12 @@ export async function GET() {
 
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${apiKey}` },
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
 
     if (!res.ok) {
       console.error(`Airtable responded with ${res.status}`);
-      return NextResponse.json(approvedTributes);
+      return jsonNoStore(approvedTributes);
     }
 
     const data = await res.json();
@@ -75,12 +81,12 @@ export async function GET() {
 
     // ── Airtable returned nothing — fall back to local approved list ──────
     if (tributes.length === 0) {
-      return NextResponse.json(approvedTributes);
+      return jsonNoStore(approvedTributes);
     }
 
-    return NextResponse.json(tributes);
+    return jsonNoStore(tributes);
   } catch (err) {
     console.error("Airtable fetch failed:", err);
-    return NextResponse.json(approvedTributes);
+    return jsonNoStore(approvedTributes);
   }
 }
