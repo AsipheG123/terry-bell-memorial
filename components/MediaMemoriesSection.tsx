@@ -5,10 +5,12 @@ import Image from "next/image";
 import SectionHeader from "./SectionHeader";
 import { mediaItems, memoryCards } from "@/data/media";
 
-const VISIBLE_COUNT = 9;
+const INITIAL_VISIBLE_PHOTOS = 15;
+const INITIAL_VISIBLE_MEMORIES = 3;
 
 export default function MediaMemoriesSection() {
   const [showMore, setShowMore] = useState(false);
+  const [showMoreMemories, setShowMoreMemories] = useState(false);
   // Tracks which memory card IDs have been expanded to show fullBody
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
@@ -20,8 +22,13 @@ export default function MediaMemoriesSection() {
     });
   }
 
-  const visibleItems = mediaItems.slice(0, VISIBLE_COUNT);
-  const moreItems = mediaItems.slice(VISIBLE_COUNT);
+  const visibleItems = mediaItems.slice(0, INITIAL_VISIBLE_PHOTOS);
+  const moreItems = mediaItems.slice(INITIAL_VISIBLE_PHOTOS);
+
+  const displayedMemoryCards =
+    showMoreMemories || memoryCards.length <= INITIAL_VISIBLE_MEMORIES
+      ? memoryCards
+      : memoryCards.slice(0, INITIAL_VISIBLE_MEMORIES);
 
   return (
     <section
@@ -56,7 +63,7 @@ export default function MediaMemoriesSection() {
               Photographs
             </h3>
 
-            {/* Primary grid — first 9 images */}
+            {/* Primary grid — first N images */}
             <div
               style={{
                 display: "grid",
@@ -207,7 +214,7 @@ export default function MediaMemoriesSection() {
             </h3>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
-            {memoryCards.map((card) => {
+            {displayedMemoryCards.map((card) => {
   const isExpanded = expandedCards.has(card.id);
   const hasMore = Boolean(card.fullBody);
   const isImageCard = Boolean(card.imageSrc);
@@ -333,6 +340,40 @@ export default function MediaMemoriesSection() {
   );
 })}
             </div>
+
+            {memoryCards.length > INITIAL_VISIBLE_MEMORIES && (
+              <button
+                type="button"
+                onClick={() => setShowMoreMemories((v) => !v)}
+                style={{
+                  marginTop: "1rem",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  background: "transparent",
+                  border: "1px solid rgba(107,78,55,0.3)",
+                  borderRadius: "6px",
+                  color: "#6B4E37",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.78rem",
+                  fontWeight: 500,
+                  letterSpacing: "0.04em",
+                  padding: "0.5rem 1rem",
+                  cursor: "pointer",
+                  transition: "background 0.2s, color 0.2s",
+                }}
+                onMouseOver={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background =
+                    "rgba(107,78,55,0.08)";
+                }}
+                onMouseOut={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                }}
+              >
+                {showMoreMemories ? "Show less" : "See more"}
+                <span style={{ fontSize: "0.7rem" }}>{showMoreMemories ? "▲" : "▼"}</span>
+              </button>
+            )}
           </div>
         </div>
 
