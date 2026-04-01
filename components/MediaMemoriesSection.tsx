@@ -207,92 +207,131 @@ export default function MediaMemoriesSection() {
             </h3>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
-              {memoryCards.map((card) => {
-                const isExpanded = expandedCards.has(card.id);
-                const hasMore = Boolean(card.fullBody);
-                return (
-                  <div
-                    key={card.id}
-                    style={{
-                      borderRadius: "10px",
-                      padding: "1.5rem",
-                      background: "#FFFFFF",
-                      border: "1px solid rgba(107,78,55,0.11)",
-                      boxShadow: "0 2px 14px rgba(28,18,10,0.05)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "block",
-                        width: "1.5rem",
-                        height: "1px",
-                        background: "#C4A46B",
-                        marginBottom: "0.875rem",
-                      }}
-                    />
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-serif)",
-                        fontSize: "0.975rem",
-                        color: "#3D2B1F",
-                        fontWeight: 600,
-                        marginBottom: "0.625rem",
-                        lineHeight: 1.35,
-                      }}
-                    >
-                      {card.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "0.855rem",
-                        color: "#5A4535",
-                        lineHeight: 1.82,
-                        marginBottom: hasMore ? "0.625rem" : card.attribution ? "0.875rem" : "0",
-                        whiteSpace: "pre-line",
-                      }}
-                    >
-                      {isExpanded && card.fullBody ? card.fullBody : card.body}
-                    </p>
+            {memoryCards.map((card) => {
+  const isExpanded = expandedCards.has(card.id);
+  const hasMore = Boolean(card.fullBody);
+  const isImageCard = Boolean(card.imageSrc);
 
-                    {/* Read More / Read Less toggle — only when fullBody exists */}
-                    {hasMore && (
-                      <button
-                        onClick={() => toggleCard(card.id)}
-                        style={{
-                          display: "inline-block",
-                          background: "transparent",
-                          border: "none",
-                          padding: 0,
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "0.78rem",
-                          color: "#9B7A56",
-                          textDecoration: "underline",
-                          textUnderlineOffset: "3px",
-                          cursor: "pointer",
-                          marginBottom: card.attribution ? "0.875rem" : "0",
-                        }}
-                      >
-                        {isExpanded ? "Show less" : "See more"}
-                      </button>
-                    )}
+  return (
+    <div
+      key={card.id}
+      style={{
+        borderRadius: "10px",
+        padding: "1.5rem",
+        background: "#FFFFFF",
+        border: "1px solid rgba(107,78,55,0.11)",
+        boxShadow: "0 2px 14px rgba(28,18,10,0.05)",
+      }}
+    >
+      <span
+        style={{
+          display: "block",
+          width: "1.5rem",
+          height: "1px",
+          background: "#C4A46B",
+          marginBottom: "0.875rem",
+        }}
+      />
 
-                    {card.attribution && (
-                      <p
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "0.74rem",
-                          color: "#9B8B7B",
-                          fontStyle: "italic",
-                          marginTop: hasMore && !card.attribution ? "0" : "0",
-                        }}
-                      >
-                        — {card.attribution}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
+      {isImageCard ? (
+        <>
+          <img
+            src={card.imageSrc}
+            alt={card.imageAlt ?? card.title ?? "Memory image"}
+            style={{
+              display: "block",
+              width: "100%",
+              height: "auto",
+              borderRadius: "8px",
+            }}
+          />
+
+          {card.attribution && (
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.78rem",
+                color: "#9B7A56",
+                marginTop: "0.875rem",
+                marginBottom: 0,
+                fontStyle: "italic",
+              }}
+            >
+              — {card.attribution}
+            </p>
+          )}
+        </>
+      ) : (
+        <>
+          {card.title && (
+            <h3
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "0.975rem",
+                color: "#3D2B1F",
+                fontWeight: 600,
+                marginBottom: "0.625rem",
+                lineHeight: 1.35,
+              }}
+            >
+              {card.title}
+            </h3>
+          )}
+
+          {card.body && (
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.855rem",
+                color: "#5A4535",
+                lineHeight: 1.82,
+                marginBottom: hasMore ? "0.625rem" : card.attribution ? "0.875rem" : "0",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {isExpanded && card.fullBody ? card.fullBody : card.body}
+            </p>
+          )}
+
+          {hasMore && (
+            <button
+              onClick={() => toggleCard(card.id)}
+              style={{
+                display: "inline-block",
+                background: "transparent",
+                border: "none",
+                padding: 0,
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.78rem",
+                color: "#9B7A56",
+                textDecoration: "underline",
+                textUnderlineOffset: "3px",
+                cursor: "pointer",
+                marginBottom: card.attribution ? "0.875rem" : "0",
+              }}
+            >
+              {isExpanded ? "Read Less" : "Read More"}
+            </button>
+          )}
+
+          {card.attribution && (
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.78rem",
+                color: "#9B7A56",
+                margin: 0,
+                fontStyle: "italic",
+              }}
+            >
+              — {card.attribution}
+            </p>
+          )}
+        </>
+      )}
+    </div>
+  );
+})}
             </div>
           </div>
         </div>

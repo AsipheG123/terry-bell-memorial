@@ -7,12 +7,16 @@ export interface MediaItem {
 
 export interface MemoryCard {
   id: string;
-  title: string;
-  /** Preview text — always shown */
-  body: string;
+  title?: string;
+  /** Preview text — always shown for text cards */
+  body?: string;
   /** Full text — if present, a Read More toggle is shown in the component */
   fullBody?: string;
   attribution?: string;
+
+  /** Optional image-only memory support */
+  imageSrc?: string;
+  imageAlt?: string;
 }
 
 export const mediaItems: MediaItem[] = [
@@ -181,6 +185,12 @@ export const mediaItems: MediaItem[] = [
 ];
 
 export const memoryCards: MemoryCard[] = [
+  {
+    id: "obit-ziv",
+    imageSrc: "/images/Obit Ziv Tribute.jpg",
+    imageAlt: "Obituary tribute article for Terry Bell from Amandla! magazine",
+    attribution: "Amandla! Magazine, April 2026",
+  },
   {
     id: "1",
     title: "Neill Bell on brother, Terry Bell",
