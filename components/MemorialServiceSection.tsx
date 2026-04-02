@@ -36,7 +36,6 @@ export default function MemorialServiceSection() {
         }}
       />
       <div style={{ maxWidth: "64rem", margin: "0 auto", position: "relative", zIndex: 2 }}>
-        </div>
         <SectionHeader
           label="Memorial Service"
           heading={memorialService.heading}
@@ -194,62 +193,63 @@ export default function MemorialServiceSection() {
             </div>
 
             {/* Stylised map */}
-<div
-  style={{
-    borderRadius: "12px",
-    overflow: "hidden",
-    position: "relative",
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(196,164,107,0.14)",
-    height: "180px",
-    flexShrink: 0,
-  }}
->
-  <svg
-    style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
-    }}
-    viewBox="0 0 460 180"
-    preserveAspectRatio="xMidYMid slice"
-  >
-    <line x1="0" y1="68" x2="460" y2="98" stroke="rgba(196,164,107,0.22)" strokeWidth="1.5" />
-    <line x1="0" y1="108" x2="460" y2="118" stroke="rgba(196,164,107,0.13)" strokeWidth="1" />
-    <line x1="155" y1="0" x2="135" y2="180" stroke="rgba(196,164,107,0.18)" strokeWidth="1.5" />
-    <line x1="220" y1="0" x2="205" y2="180" stroke="rgba(196,164,107,0.09)" strokeWidth="1" />
-    <line x1="65" y1="0" x2="48" y2="180" stroke="rgba(196,164,107,0.1)" strokeWidth="0.8" />
-    <line x1="310" y1="0" x2="298" y2="180" stroke="rgba(196,164,107,0.09)" strokeWidth="0.8" />
-  </svg>
+            <div
+              style={{
+                borderRadius: "12px",
+                overflow: "hidden",
+                position: "relative",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(196,164,107,0.14)",
+                height: "180px",
+                flexShrink: 0,
+              }}
+            >
+              <svg
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+                viewBox="0 0 460 180"
+                preserveAspectRatio="xMidYMid slice"
+              >
+                <line x1="0" y1="68" x2="460" y2="98" stroke="rgba(196,164,107,0.22)" strokeWidth="1.5" />
+                <line x1="0" y1="108" x2="460" y2="118" stroke="rgba(196,164,107,0.13)" strokeWidth="1" />
+                <line x1="155" y1="0" x2="135" y2="180" stroke="rgba(196,164,107,0.18)" strokeWidth="1.5" />
+                <line x1="220" y1="0" x2="205" y2="180" stroke="rgba(196,164,107,0.09)" strokeWidth="1" />
+                <line x1="65" y1="0" x2="48" y2="180" stroke="rgba(196,164,107,0.1)" strokeWidth="0.8" />
+                <line x1="310" y1="0" x2="298" y2="180" stroke="rgba(196,164,107,0.09)" strokeWidth="0.8" />
+              </svg>
 
-  {/* Location marker */}
-  <div
-    style={{
-      position: "absolute",
-      left: "72%",
-      top: "64%",
-      transform: "translate(-40%, -50%)",
-      display: "flex",
-      alignItems: "center",
-      gap: "0.625rem",
-    }}
-  >
-    <div
-      style={{
-        width: "14px",
-        height: "14px",
-        borderRadius: "50%",
-        background: "#C4A46B",
-        border: "3px solid rgba(196,164,107,0.28)",
-        boxShadow: "0 0 0 5px rgba(196,164,107,0.12)",
-        flexShrink: 0,
-      }}
-    />
-  </div>
-</div>
-</div>
-</div>
-</section>
-);
+              {/* Location marker */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  transform: "translate(-40%, -50%)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.625rem",
+                }}
+              >
+                <div
+                  style={{
+                    width: "14px",
+                    height: "14px",
+                    borderRadius: "50%",
+                    background: "#C4A46B",
+                    border: "3px solid rgba(196,164,107,0.28)",
+                    boxShadow: "0 0 0 5px rgba(196,164,107,0.12)",
+                    flexShrink: 0,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
