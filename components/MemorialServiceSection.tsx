@@ -186,9 +186,22 @@ export default function MemorialServiceSection() {
                   fontSize: "0.925rem",
                   color: "#C0B39A",
                   lineHeight: 1.85,
+                  marginBottom: 0,
                 }}
               >
                 {memorialService.description}
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.925rem",
+                  color: "#C0B39A",
+                  lineHeight: 1.85,
+                  marginTop: "1rem",
+                  marginBottom: 0,
+                }}
+              >
+                {memorialService.seatingNote}
               </p>
             </div>
 
