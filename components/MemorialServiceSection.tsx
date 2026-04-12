@@ -115,9 +115,10 @@ export default function MemorialServiceSection() {
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: "0.82rem",
-                  color: "#8A7A6A",
-                  lineHeight: 1.7,
+                  fontSize: "1.125rem",
+                  fontWeight: 700,
+                  color: "#E8DBC8",
+                  lineHeight: 1.65,
                   marginBottom: "1.375rem",
                 }}
               >
@@ -194,9 +195,10 @@ export default function MemorialServiceSection() {
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: "0.925rem",
-                  color: "#C0B39A",
-                  lineHeight: 1.85,
+                  fontSize: "1.125rem",
+                  fontWeight: 700,
+                  color: "#E8DBC8",
+                  lineHeight: 1.65,
                   marginTop: "1rem",
                   marginBottom: 0,
                 }}
