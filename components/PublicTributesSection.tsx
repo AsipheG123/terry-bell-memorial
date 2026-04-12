@@ -159,8 +159,7 @@ export default function PublicTributesSection() {
                 lineHeight: 1.6,
               }}
             >
-              Tributes are reviewed by the family before appearing on this page.
-              Your submission will not be published immediately.
+              Share a tribute or memory
             </p>
 
             <form
