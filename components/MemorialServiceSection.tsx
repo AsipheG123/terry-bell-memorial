@@ -204,6 +204,26 @@ export default function MemorialServiceSection() {
               >
                 {memorialService.seatingNote}
               </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "1.125rem",
+                  fontWeight: 700,
+                  color: "#E8DBC8",
+                  lineHeight: 1.65,
+                  marginTop: "0.75rem",
+                  marginBottom: 0,
+                }}
+              >
+                {memorialService.livestreamNote.split(/(livestreamed)/).map(
+                  (chunk, i) =>
+                    chunk === "livestreamed" ? (
+                      <strong key={i}>{chunk}</strong>
+                    ) : (
+                      <span key={i}>{chunk}</span>
+                    ),
+                )}
+              </p>
             </div>
 
             {/* Stylised map */}
