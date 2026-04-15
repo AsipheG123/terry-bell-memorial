@@ -5,6 +5,10 @@ export interface MediaItem {
   caption?: string;
 }
 
+/**
+ * Gallery items id 28–67: IMG 1.jpg … IMG 40.jpg in public/images/ (exact filenames; space after IMG as %20 in URLs).
+ */
+
 export interface MemoryCard {
   id: string;
   title?: string;
@@ -181,6 +185,246 @@ export const mediaItems: MediaItem[] = [
     src: "/images/terry-27.png",
     alt: "Unfinished Business — book by Terry Bell in collaboration with Dumisa Buhle Ntsebeza",
     caption: "Unfinished Business — Terry Bell with Dumisa Buhle Ntsebeza",
+  },
+  {
+    id: "28",
+    src: "/images/IMG%201.jpg",
+    alt: "Terry and Barbara Bell — warm portrait together indoors",
+    caption: "Together",
+  },
+  {
+    id: "29",
+    src: "/images/IMG%202.jpg",
+    alt: "Terry and Barbara with a younger family member, arms around one another",
+    caption: "Three generations",
+  },
+  {
+    id: "30",
+    src: "/images/IMG%203.jpg",
+    alt: "Terry reading into a microphone at an evening gathering; Barbara beside him smiling",
+    caption: "A few words for friends",
+  },
+  {
+    id: "31",
+    src: "/images/IMG%204.jpg",
+    alt: "Extended family portrait at home — several generations smiling for the camera",
+    caption: "All together",
+  },
+  {
+    id: "32",
+    src: "/images/IMG%205.jpg",
+    alt: "Friends and family grouped in the kitchen for a casual photograph",
+    caption: "Kitchen gathering",
+  },
+  {
+    id: "33",
+    src: "/images/IMG%206.jpg",
+    alt: "Evening celebration outdoors — Terry raising a glass with friends",
+    caption: "Toasting the moment",
+  },
+  {
+    id: "34",
+    src: "/images/IMG%207.jpg",
+    alt: "Terry, Barbara, and younger family seated on a striped sofa with drinks",
+    caption: "Sofa portrait",
+  },
+  {
+    id: "35",
+    src: "/images/IMG%208.jpg",
+    alt: "Terry, Barbara, and family proudly holding up a certificate of ownership",
+    caption: "A milestone remembered",
+  },
+  {
+    id: "36",
+    src: "/images/IMG%209.jpg",
+    alt: "Kitchen portrait with children and friends gathered close",
+    caption: "Around the table",
+  },
+  {
+    id: "37",
+    src: "/images/IMG%2010.jpg",
+    alt: "Terry and Barbara seated side by side outdoors, relaxed and smiling",
+    caption: "Sun and shade",
+  },
+  {
+    id: "38",
+    src: "/images/IMG%2011.jpg",
+    alt: "Group of friends and family laughing together in the kitchen",
+    caption: "Laughter with loved ones",
+  },
+  {
+    id: "39",
+    src: "/images/IMG%2012.jpg",
+    alt: "Terry and Barbara seated together indoors, his arm around her shoulder",
+    caption: "Quiet closeness",
+  },
+  {
+    id: "40",
+    src: "/images/IMG%2013.jpg",
+    alt: "Friends posing together at a festive evening with colourful lights overhead",
+    caption: "Night out",
+  },
+  {
+    id: "41",
+    src: "/images/IMG%2014.jpg",
+    alt: "Hiking group resting on a large rock with scrub and a survey marker behind",
+    caption: "On the trail",
+  },
+  {
+    id: "42",
+    src: "/images/IMG%2015.jpg",
+    alt: "Terry, Barbara, and family outside The Wild Fig restaurant entrance",
+    caption: "The Wild Fig",
+  },
+  {
+    id: "43",
+    src: "/images/IMG%2016.jpg",
+    alt: "Terry, Barbara, and a friend at a restaurant table with wine glasses",
+    caption: "Dinner with friends",
+  },
+  {
+    id: "44",
+    src: "/images/IMG%2017.jpg",
+    alt: "Terry Bell with family and friends — group photograph",
+    caption: "Among friends",
+  },
+  {
+    id: "45",
+    src: "/images/IMG%2018.jpg",
+    alt: "Barbara and Terry with loved ones at a gathering",
+    caption: "Family and friends",
+  },
+  {
+    id: "46",
+    src: "/images/IMG%2019.jpg",
+    alt: "Celebration photograph with Terry and guests smiling",
+    caption: "A happy occasion",
+  },
+  {
+    id: "47",
+    src: "/images/IMG%2020.jpg",
+    alt: "Terry Bell at home or indoors with relatives nearby",
+    caption: "At home",
+  },
+  {
+    id: "48",
+    src: "/images/IMG%2021.jpg",
+    alt: "Group portrait — Terry with friends and family",
+    caption: "Gathered close",
+  },
+  {
+    id: "49",
+    src: "/images/IMG%2022.jpg",
+    alt: "Terry and Barbara in a candid moment with company",
+    caption: "Candid joy",
+  },
+  {
+    id: "50",
+    src: "/images/IMG%2023.jpg",
+    alt: "Outdoor or travel photograph with Terry and companions",
+    caption: "On the road",
+  },
+  {
+    id: "51",
+    src: "/images/IMG%2024.jpg",
+    alt: "Terry Bell sharing a meal or social occasion with others",
+    caption: "Shared table",
+  },
+  {
+    id: "52",
+    src: "/images/IMG%2025.jpg",
+    alt: "Family photograph including Terry and younger relatives",
+    caption: "Young and old",
+  },
+  {
+    id: "53",
+    src: "/images/IMG%2026.jpg",
+    alt: "Terry with friends — relaxed group shot",
+    caption: "Easy company",
+  },
+  {
+    id: "54",
+    src: "/images/IMG%2027.jpg",
+    alt: "Indoor gathering; Terry Bell among friends",
+    caption: "Indoors together",
+  },
+  {
+    id: "55",
+    src: "/images/IMG%2028.jpg",
+    alt: "Terry and Barbara with others at an informal event",
+    caption: "Informal celebration",
+  },
+  {
+    id: "56",
+    src: "/images/IMG%2029.jpg",
+    alt: "Portrait-style group photo with Terry Bell",
+    caption: "Faces we remember",
+  },
+  {
+    id: "57",
+    src: "/images/IMG%2030.jpg",
+    alt: "Terry Bell in conversation or posing with family",
+    caption: "Still present",
+  },
+  {
+    id: "58",
+    src: "/images/IMG%2031.jpg",
+    alt: "Friends and family around Terry and Barbara",
+    caption: "Circle of love",
+  },
+  {
+    id: "59",
+    src: "/images/IMG%2032.jpg",
+    alt: "Casual photograph from a family occasion",
+    caption: "Everyday warmth",
+  },
+  {
+    id: "60",
+    src: "/images/IMG%2033.jpg",
+    alt: "Terry Bell with guests — group smiling at the camera",
+    caption: "Smiles for the camera",
+  },
+  {
+    id: "61",
+    src: "/images/IMG%2034.jpg",
+    alt: "Memorable gathering with Terry among friends",
+    caption: "Memories in colour",
+  },
+  {
+    id: "62",
+    src: "/images/IMG%2035.jpg",
+    alt: "Terry and loved ones — another chapter of family life",
+    caption: "Another chapter",
+  },
+  {
+    id: "63",
+    src: "/images/IMG%2036.jpg",
+    alt: "Group shot at a social occasion with Terry Bell",
+    caption: "Good company",
+  },
+  {
+    id: "64",
+    src: "/images/IMG%2037.jpg",
+    alt: "Terry Bell with family or friends in a relaxed setting",
+    caption: "Relaxed and real",
+  },
+  {
+    id: "65",
+    src: "/images/IMG%2038.jpg",
+    alt: "Photograph of Terry with relatives or close friends",
+    caption: "Those who mattered",
+  },
+  {
+    id: "66",
+    src: "/images/IMG%2039.jpg",
+    alt: "Terry Bell — gathering with the people he cared for",
+    caption: "Held dear",
+  },
+  {
+    id: "67",
+    src: "/images/IMG%2040.jpg",
+    alt: "Final photograph in this set — Terry with family or friends",
+    caption: "Remembered always",
   },
 ];
 
