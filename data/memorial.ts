@@ -9,6 +9,6 @@ export const memorialService = {
     "We continue to remember Terry Bell with love, respect and gratitude. The memorial service will be held at the Masque Theatre, Muizenberg on Friday, 8 May 2026. In the meantime, please share a memory or tribute using the Public Tributes section below.",
   seatingNote:
     "As we expect a large gathering, seating may be limited. We encourage guests to arrive early.",
-  livestreamNote: "The memorial will also be livestreamed.",
+  livestreamNote: "The memorial service will also be livestreamed, link will be provided here when it is available.",
   note: "A private committal was held in accordance with Terry's wishes. He donated his body to medical science.",
 };
