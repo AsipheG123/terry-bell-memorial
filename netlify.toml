@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://terry-bell-memorial-site-78a45b.netlify.app/*"
+  to = "https://terrybellmemorial.com/:splat"
+  status = 301
+  force = true
