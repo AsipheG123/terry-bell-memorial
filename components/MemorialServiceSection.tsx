@@ -215,72 +215,89 @@ export default function MemorialServiceSection() {
                   marginBottom: 0,
                 }}
               >
-                {memorialService.livestreamNote.split(/(livestreamed)/).map(
-                  (chunk, i) =>
-                    chunk === "livestreamed" ? (
-                      <strong key={i}>{chunk}</strong>
-                    ) : (
-                      <span key={i}>{chunk}</span>
-                    ),
-                )}
+                The memorial service will also be{" "}
+                <strong>livestreamed</strong>. You can watch it below or open it
+                directly on YouTube{" "}
+                <a
+                  href={memorialService.livestreamUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "#C4A46B",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "3px",
+                  }}
+                >
+                  here
+                </a>
+                .
               </p>
             </div>
 
-            {/* Stylised map */}
+            {/* Livestream embed */}
             <div
               style={{
                 borderRadius: "12px",
                 overflow: "hidden",
                 position: "relative",
-                background: "rgba(255,255,255,0.03)",
+                background: "rgba(255,255,255,0.04)",
                 border: "1px solid rgba(196,164,107,0.14)",
-                height: "180px",
                 flexShrink: 0,
               }}
             >
-              <svg
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-                viewBox="0 0 460 180"
-                preserveAspectRatio="xMidYMid slice"
-              >
-                <line x1="0" y1="68" x2="460" y2="98" stroke="rgba(196,164,107,0.22)" strokeWidth="1.5" />
-                <line x1="0" y1="108" x2="460" y2="118" stroke="rgba(196,164,107,0.13)" strokeWidth="1" />
-                <line x1="155" y1="0" x2="135" y2="180" stroke="rgba(196,164,107,0.18)" strokeWidth="1.5" />
-                <line x1="220" y1="0" x2="205" y2="180" stroke="rgba(196,164,107,0.09)" strokeWidth="1" />
-                <line x1="65" y1="0" x2="48" y2="180" stroke="rgba(196,164,107,0.1)" strokeWidth="0.8" />
-                <line x1="310" y1="0" x2="298" y2="180" stroke="rgba(196,164,107,0.09)" strokeWidth="0.8" />
-              </svg>
-
-              {/* Location marker */}
               <div
                 style={{
-                  position: "absolute",
-                  left: "50%",
-                  top: "50%",
-                  transform: "translate(-40%, -50%)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.625rem",
+                  position: "relative",
+                  width: "100%",
+                  paddingTop: "56.25%",
                 }}
               >
-                <div
+                <iframe
+                  src={memorialService.livestreamEmbedUrl}
+                  title="Terry Bell Memorial Service Livestream"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
                   style={{
-                    width: "14px",
-                    height: "14px",
-                    borderRadius: "50%",
-                    background: "#C4A46B",
-                    border: "3px solid rgba(196,164,107,0.28)",
-                    boxShadow: "0 0 0 5px rgba(196,164,107,0.12)",
-                    flexShrink: 0,
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: 0,
                   }}
                 />
               </div>
             </div>
+
+            <a
+              href={memorialService.livestreamUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                alignSelf: "flex-start",
+                display: "inline-block",
+                padding: "0.65rem 1.4rem",
+                borderRadius: "6px",
+                background: "transparent",
+                border: "1px solid rgba(196,164,107,0.45)",
+                color: "#C4A46B",
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.78rem",
+                fontWeight: 500,
+                letterSpacing: "0.06em",
+                textDecoration: "none",
+                transition: "background 0.2s, color 0.2s",
+              }}
+              onMouseOver={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background =
+                  "rgba(196,164,107,0.12)";
+              }}
+              onMouseOut={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background =
+                  "transparent";
+              }}
+            >
+              Open livestream on YouTube ↗
+            </a>
           </div>
         </div>
       </div>
