@@ -436,12 +436,6 @@ export const memoryCards: MemoryCard[] = [
     attribution: "Amandla! Magazine, April 2026",
   },
   {
-    id: "1",
-    title: "Neill Bell on brother, Terry Bell",
-    body: "Yeah, I mean he was you know. I mean the thing is that he and Barbara were one person. I mean they were so committed to each other and they lived together for sixty years or whatever and they've never been a part. But he was also a family man, right, and they had two children who loves dearly. He's got a grandson. Well he who's eight. But he liked people, you know, and Terence is actually his background whilst he's all activism and Harvard then, but he still was committed to education. And in the later years of hour, particularly now when we’re talking, we're saying, perhaps, you know, Barbara always said we need education, education, education, and that is the ladies of books come out. And I think territors realized that you have to build a solid background of educating people, teaching people, training them and then taking stage because that's the only way you really make big changes in the world.",
-    attribution: "Neill Bell",
-  },
-  {
     id: "2",
     title: "Books by Terry Bell",
     body: "2Cover Books is saddened to hear of the passing of renowned author and journalist Terry Bell. A defining feature of Terry's life was to hold power to account. He did so even when his side was in the wrong, as related in Fordsburg Fighter, which tells the powerful story of Amin Cajee. Terry was also a force of nature. Nothing demonstrates this better than his rollicking tale of misadventures in attempting to kayak from London to Dar er Salam, as told in A hat, a kayak & dreams of Dar. We are proud to have worked with Terry the historian and Terry the larger than life writer. May His Wonderful Soul Rest Forever In Peace.",
